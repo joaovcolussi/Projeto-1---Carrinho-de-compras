@@ -13,36 +13,38 @@ class Cart
         $this->stock = $stock;
         $this->items = [];
     }
-
+    
+    // Public Methods (The "What")
+    
     public function addItem(int $id, int $quantity): void
     {
         $product = $this->stock->getProduct($id);
         
-        if (!$product) {
-            echo "Error: Product with ID {$id} not found.<br>";
+        if (!$this->isValidProduct($product, $id) || !$this->hasSufficientStock($product, $quantity)) {
             return;
         }
 
         if ($this->stock->decreaseQuantity($id, $quantity)) {
-            $subtotal = $product->getPrice() * $quantity;
-            $this->items[] = ['product' => $product, 'quantity' => $quantity, 'subtotal' => $subtotal];
-            echo "{$quantity}x '{$product->getName()}' added to cart.<br>";
+            $this->createCartItem($product, $quantity);
+            $this->printSuccessMessage($product->getName(), $quantity);
         } else {
-            echo "Error: Insufficient stock for product '{$product->getName()}'.<br>";
+            $this->printErrorMessage($product->getName());
         }
     }
 
     public function removeItem(int $id): void
     {
-        foreach ($this->items as $key => $item) {
-            if ($item['product']->getId() === $id) {
-                $this->stock->restoreQuantity($id, $item['quantity']);
-                unset($this->items[$key]);
-                echo "Item '{$item['product']->getName()}' removed from cart and stock restored.<br>";
-                return;
-            }
+        $itemKey = $this->findItemKey($id);
+
+        if ($itemKey === null) {
+            echo "Error: Product with ID {$id} not found in the cart.<br>";
+            return;
         }
-        echo "Error: Product with ID {$id} not found in the cart.<br>";
+        
+        $item = $this->items[$itemKey];
+        $this->stock->restoreQuantity($id, $item['quantity']);
+        unset($this->items[$itemKey]);
+        echo "Item '{$item['product']->getName()}' removed from cart and stock restored.<br>";
     }
 
     public function calculateTotal(): float
@@ -73,5 +75,50 @@ class Cart
         foreach ($this->items as $item) {
             echo "Product: {$item['product']->getName()} | Quantity: {$item['quantity']} | Subtotal: R$ " . number_format($item['subtotal'], 2, ',', '.') . "<br>";
         }
+    }
+    
+    
+    private function isValidProduct(?Product $product, int $id): bool
+    {
+        if (!$product) {
+            echo "Error: Product with ID {$id} not found.<br>";
+            return false;
+        }
+        return true;
+    }
+    
+    private function hasSufficientStock(Product $product, int $quantity): bool
+    {
+        if ($quantity <= 0 || $quantity > $this->stock->getQuantity($product->getId())) {
+            echo "Error: Insufficient stock for product '{$product->getName()}'.<br>";
+            return false;
+        }
+        return true;
+    }
+    
+    private function createCartItem(Product $product, int $quantity): void
+    {
+        $subtotal = $product->getPrice() * $quantity;
+        $this->items[] = ['product' => $product, 'quantity' => $quantity, 'subtotal' => $subtotal];
+    }
+    
+    private function printSuccessMessage(string $productName, int $quantity): void
+    {
+        echo "{$quantity}x '{$productName}' added to cart.<br>";
+    }
+    
+    private function printErrorMessage(string $productName): void
+    {
+        echo "Error: Insufficient stock for product '{$productName}'.<br>";
+    }
+
+    private function findItemKey(int $id): ?int
+    {
+        foreach ($this->items as $key => $item) {
+            if ($item['product']->getId() === $id) {
+                return $key;
+            }
+        }
+        return null;
     }
 }

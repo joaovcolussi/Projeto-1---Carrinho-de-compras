@@ -14,7 +14,6 @@ class Cart
         $this->items = [];
     }
     
-    // Public Methods (The "What")
     
     public function addItem(int $id, int $quantity): void
     {

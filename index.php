@@ -4,31 +4,31 @@ require_once 'classes/Cart.php';
 require_once 'classes/Stock.php';
 require_once 'classes/Product.php';
 
-// Fixed product data for simulation.
+
 $productData = [
     ['id' => 1, 'name' => 'Carteira do relampago marquinhos', 'price' => 59.90, 'stock' => 10],
     ['id' => 2, 'name' => 'Blusa do mikey mouse', 'price' => 129.90, 'stock' => 5],
     ['id' => 3, 'name' => 'Short do Barack Obama', 'price' => 199.90, 'stock' => 3]
 ];
 
-// Instantiating the Stock class with product data.
+// Instanciando o stock
 $stock = new Stock($productData);
 
-// Instantiating the Cart class, injecting the Stock dependency.
+//  Instanciando a classe
 $cart = new Cart($stock);
 
-// --- Use Case Simulation ---
+
 echo "<h2>Shopping Cart Simulation (Object-Oriented)</h2>";
 
-// Use Case 1: Add a valid product.
+// Caso 1 — Usuário adiciona um produto válido
 $cart->addItem(1, 2);
 echo "<br>";
 
-// Use Case 2: Try to add more than the stock allows.
+// Caso 2 — Usuário tenta adicionar além do estoque
 $cart->addItem(3, 10);
 echo "<br>";
 
-// List the cart after additions.
+// Listar Items do carrinho
 $cart->listItems();
 echo "<br>";
 
@@ -36,20 +36,20 @@ echo "<br>";
 $initialTotal = $cart->calculateTotal();
 echo "Initial total value (without discount): R$ " . number_format($initialTotal, 2, ',', '.') . "<br>";
 
-// Use Case 4: Apply discount coupon.
+// Caso 4 — Aplicação de cupom de desconto.
 $totalWithDiscount = $cart->applyDiscount($initialTotal, 'DESCONTO10');
 echo "Total value (with coupon DESCONTO10): R$ " . number_format($totalWithDiscount, 2, ',', '.') . "<br>";
 echo "<br>";
 
-// Use Case 3: Remove a product from the cart.
+// Caso 3 — Usuário remove produto do carrinho
 $cart->removeItem(1);
 echo "<br>";
 
-// List the cart after removal.
+// Listando depois de remover
 $cart->listItems();
 echo "<br>";
 
-// Display the updated stock for verification.
+// Update de estoque
 echo "<h3>Updated Stock</h3>";
 $stock->listStock();
 ?>

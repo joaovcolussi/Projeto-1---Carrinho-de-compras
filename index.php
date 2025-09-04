@@ -6,9 +6,9 @@ require_once 'classes/Product.php';
 
 // Fixed product data for simulation.
 $productData = [
-    ['id' => 1, 'name' => 'T-Shirt', 'price' => 59.90, 'stock' => 10],
-    ['id' => 2, 'name' => 'Jeans', 'price' => 129.90, 'stock' => 5],
-    ['id' => 3, 'name' => 'Sneakers', 'price' => 199.90, 'stock' => 3]
+    ['id' => 1, 'name' => 'Carteira do relampago marquinhos', 'price' => 59.90, 'stock' => 10],
+    ['id' => 2, 'name' => 'Blusa do mikey mouse', 'price' => 129.90, 'stock' => 5],
+    ['id' => 3, 'name' => 'Short do Barack Obama', 'price' => 199.90, 'stock' => 3]
 ];
 
 // Instantiating the Stock class with product data.

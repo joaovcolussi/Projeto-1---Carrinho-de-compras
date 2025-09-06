@@ -6,9 +6,9 @@ require_once 'classes/Product.php';
 
 
 $productData = [
-    ['id' => 1, 'name' => 'Carteira do relampago marquinhos', 'price' => 59.90, 'stock' => 10],
-    ['id' => 2, 'name' => 'Blusa do mikey mouse', 'price' => 129.90, 'stock' => 5],
-    ['id' => 3, 'name' => 'Short do Barack Obama', 'price' => 199.90, 'stock' => 3]
+    ['id' => 1, 'name' => 'Pão de alho Santa Massa', 'price' => 12.90, 'stock' => 10],
+    ['id' => 2, 'name' => 'Picanha', 'price' => 89.90, 'stock' => 5],
+    ['id' => 3, 'name' => 'Filé Mignon', 'price' => 199.90, 'stock' => 3]
 ];
 
 $stock = new Stock($productData);

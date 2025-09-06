@@ -1,4 +1,4 @@
-# Projeto 1: Simulador de Carrinho de Compras
+# Projeto 1:  Carrinho de Compras
 
 ## Autor
 * **Nome:** João Victor Colussi
